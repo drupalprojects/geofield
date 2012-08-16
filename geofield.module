@@ -6,6 +6,9 @@ require_once('geofield.formatters.inc');
 require_once('geofield.openlayers.inc');
 require_once('geofield.feeds.inc');
 
+// @TODO: Tmp.
+require_once('includes/geofield.core.inc');
+
 /**
  * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
  */
@@ -33,6 +36,10 @@ function geofield_field_info() {
       'microdata' => TRUE,
     ),
   );
+}
+
+function geofield_get_db_plugin($plugin_name) {
+  return new GeofieldDatabaseDefault();
 }
 
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
@@ -109,11 +116,29 @@ function geofield_ctools_plugin_api($module, $api) {
   return array('version' => 1);
 }
 
+/**
+ * Implements hook_field_settings_form().
+ */
+
+function geofield_field_settings_form($field, $instance, $has_data) {
+  $form = array();
+
+  $form['backend'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Test'),
+    '#default_value' => (isset($field['settings']['backend'])) ? $field['settings']['backend'] : '',
+    '#disabled' => $has_data,
+  );
+
+  return $form;
+}
+
  /**
  * Implements hook_field_instance_settings_form().
  */
 function geofield_field_instance_settings_form($field, $instance) {
   $form = array();
+
   // Add in local solr settings
   if (module_exists('apachesolr')) {
 
