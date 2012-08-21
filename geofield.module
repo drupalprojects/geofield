@@ -138,15 +138,6 @@ function geofield_field_delete_revision($entity_type, $entity, $field, $instance
 }
 
 /**
- * Implements hook_field_prepare_translation().
- */
-function geofield_field_prepare_translation($entity_type, $entity, $field, $instance, $langcode, &$items, $source_entity, $source_langcode) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldPrepareTranslation($entity_type, $entity, $field, $instance, $langcode, $items, $source_entity, $source_langcode);
-  }
-}
-
-/**
  * Implements hook_field_update_field().
  */
 function geofield_field_update_field($field, $prior_field, $has_data) {

@@ -59,7 +59,6 @@ interface GeofieldDatabaseInterface {
   public function fieldUpdate($entity_type, $entity, $field, $instance, $langcode, &$items);
   public function fieldDelete($entity_type, $entity, $field, $instance, $langcode, &$items);
   public function fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, &$items);
-  public function fieldPrepareTranslation($entity_type, $entity, $field, $instance, $langcode, &$items, $source_entity, $source_langcode);
   public function fieldUpdateField($field, $prior_field, $has_data);
   public function fieldUpdateForbid($field, $prior_field, $has_data);
   public function fieldDeleteField($field);
@@ -183,9 +182,6 @@ class GeofieldDatabaseDefault implements GeofieldDatabaseInterface {
   }
 
   public function fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  }
-
-  public function fieldPrepareTranslation($entity_type, $entity, $field, $instance, $langcode, &$items, $source_entity, $source_langcode) {
   }
 
   public function fieldUpdateField($field, $prior_field, $has_data) {
