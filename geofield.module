@@ -40,9 +40,9 @@ function geofield_get_db_plugin($name = 'default') {
 }
 
 /**
- * Implements hook_geofield_database_info().
+ * Implements hook_geofield_db_plugin_info().
  */
-function geofield_geofield_database_info() {
+function geofield_geofield_db_plugin_info() {
   $info = array();
   $info['default'] = array(
     'title' => t('Default'),

@@ -15,7 +15,7 @@ class GeofieldDatabasePluginDiscovery {
   }
 
   public static function getDefinitions() {
-    $hook = 'geofield_database_info';
+    $hook = 'geofield_db_plugin_info';
     foreach (module_implements($hook) as $module) {
       $function = $module . '_' . $hook;
       foreach ($function() as $type => $definition) {
