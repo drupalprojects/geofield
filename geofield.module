@@ -6,9 +6,6 @@ require_once('geofield.formatters.inc');
 require_once('geofield.openlayers.inc');
 require_once('geofield.feeds.inc');
 
-// @TODO: Tmp.
-require_once('includes/geofield.core.inc');
-
 /**
  * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
  */
@@ -38,8 +35,20 @@ function geofield_field_info() {
   );
 }
 
-function geofield_get_db_plugin($plugin_name) {
-  return new GeofieldDatabaseDefault();
+function geofield_get_db_plugin($name = 'default') {
+  return GeofieldDatabasePluginFactory::getInstance($name);
+}
+
+/**
+ * Implements hook_geofield_database_info().
+ */
+function geofield_geofield_database_info() {
+  $info = array();
+  $info['default'] = array(
+    'title' => t('Default'),
+    'class' => 'GeofieldDatabaseDefault',
+  );
+  return $info;
 }
 
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {

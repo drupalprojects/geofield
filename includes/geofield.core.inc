@@ -2,8 +2,48 @@
 
 /**
  * @file
- * Database plugin interface
+ * Database plugin intefaces and classes
  */
+
+/**
+ * Database plugin discovery class.
+ */
+class GeofieldDatabasePluginDiscovery {
+  public static function getDefinition($name) {
+    $definitions = GeofieldDatabasePluginFactory::getDefinitions();
+    return isset($definitions[$name]) ? $definitions[$name] : array();
+  }
+
+  public static function getDefinitions() {
+    $hook = 'geofield_database_info';
+    foreach (module_implements($hook) as $module) {
+      $function = $module . '_' . $hook;
+      foreach ($function() as $type => $definition) {
+        $definition['module'] = $module;
+        $definitions[$type] = $definition;
+      }
+    }
+    drupal_alter($hook, $definitions);
+    return $definitions;
+  }
+}
+
+/**
+ * Database plugin factory.
+ */
+class GeofieldDatabasePluginFactory {
+  public static function getInstance($name) {
+    if (empty($name)) {
+      return NULL;
+    }
+    $definition = GeofieldDatabasePluginDiscovery::getDefinition($name);
+    if (empty($definition) || !class_exists($definition['class'])) {
+      return NULL;
+    }
+    $class = $definition['class'];
+    return new $class();
+  }
+}
 
 /**
  * Base interface for connecting to geospatially enabled databases.
@@ -15,7 +55,6 @@ interface GeofieldDatabaseInterface {
 /**
  * Our default class.
  */
-
 class GeofieldDatabaseDefault implements GeofieldDatabaseInterface {
   public function getFieldSchema() {
     return array(
