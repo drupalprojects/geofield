@@ -35,6 +35,20 @@ function geofield_field_info() {
   );
 }
 
+/**
+ * Retrieves the DB Plugin for an specific field
+ */
+function geofield_get_field_db_plugin($field) {
+  if (!isset($field['settings']['backend'])) {
+    return NULL;
+  }
+  $db_plugin = geofield_get_db_plugin($field['settings']['backend']);
+  return $db_plugin;
+}
+
+/**
+ * Retrieves a DB Plugin Instance of an specific type
+ */
 function geofield_get_db_plugin($name = 'default') {
   return GeofieldDatabasePluginFactory::getInstance($name);
 }
@@ -51,50 +65,112 @@ function geofield_geofield_db_plugin_info() {
   return $info;
 }
 
+/**
+ * Implements hook_field_validate().
+ */
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldValidate($entity_type, $entity, $field, $instance, $langcode, $items, $errors);
+  }
 }
 
 /**
  * Implements hook_field_presave().
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($field['type'] === 'geofield') {
-    foreach ($items as $delta => $item) {
-      $items[$delta] = geofield_compute_values($item);
-    }
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldPresave($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
 /**
  * Implements hook_field_load().
  */
-
 function geofield_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-  /*if ($field['type'] === 'geofield') {
-    geophp_load();
-    foreach ($items as $delta => $item) {
-      $geom = geoPHP::load($item['geom'], 'wkb');
-      $item['geom'] = $geom->out('wkt');
-    }
-  }*/
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldLoad($entity_type, $entities, $field, $instances, $langcode, $items, $age);
+  }
 }
 
 /**
- * Implements hook_content_is_empty().
+ * Implements hook_field_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
-  if (isset($item['input_format'])) {
-    switch ($item['input_format']) {
-      case GEOFIELD_INPUT_LAT_LON:
-        return ((trim($item['geom']['lat']) == '') || (trim($item['geom']['lon']) == ''));
-      case GEOFIELD_INPUT_BOUNDS:
-        return ((trim($item['geom']['top']) == '') || (trim($item['geom']['right']) == '') ||
-        (trim($item['geom']['bottom']) == '') || (trim($item['geom']['left']) == ''));
-    }
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldIsEmpty($item, $field);
   }
-  //@@TODO: Check if it's an empty geometry as per geoPHP $geometry->empty()
-  return empty($item['geom']);
+}
+
+/**
+ * Implements hook_field_insert().
+ */
+function geofield_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldInsert($entity_type, $entity, $field, $instance, $langcode, $items);
+  }
+}
+
+/**
+ * Implements hook_field_update().
+ */
+function geofield_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldUpdate($entity_type, $entity, $field, $instance, $langcode, $items);
+  }
+}
+
+/**
+ * Implements hook_field_delete().
+ */
+function geofield_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldDelete($entity_type, $entity, $field, $instance, $langcode, $items);
+  }
+}
+
+/**
+ * Implements hook_field_delete_revision().
+ */
+function geofield_field_delete_revision($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, $items);
+  }
+}
+
+/**
+ * Implements hook_field_prepare_translation().
+ */
+function geofield_field_prepare_translation($entity_type, $entity, $field, $instance, $langcode, &$items, $source_entity, $source_langcode) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldPrepareTranslation($entity_type, $entity, $field, $instance, $langcode, $items, $source_entity, $source_langcode);
+  }
+}
+
+/**
+ * Implements hook_field_update_field().
+ */
+function geofield_field_update_field($field, $prior_field, $has_data) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldUpdateField($field, $prior_field, $has_data);
+  }
+}
+
+/**
+ * Implements hook_field_update_forbid().
+ */
+function geofield_field_update_forbid($field, $prior_field, $has_data) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldUpdateForbid($field, $prior_field, $has_data);
+  }
+}
+
+/**
+ * Implements hook_field_delete_field().
+ */
+function geofield_field_delete_field($field) {
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $db_plugin->fieldDeleteField($field);
+  }
 }
 
 /**
@@ -132,12 +208,25 @@ function geofield_ctools_plugin_api($module, $api) {
 function geofield_field_settings_form($field, $instance, $has_data) {
   $form = array();
 
+  $options = array();
+  $definitions = GeofieldDatabasePluginDiscovery::getDefinitions();
+
+  foreach ($definitions as $type => $definition) {
+    $options[$type] = $definition['title'];
+  }
+
   $form['backend'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Test'),
+    '#type' => 'select',
+    '#title' => t('Backend'),
+    '#required' => TRUE,
     '#default_value' => (isset($field['settings']['backend'])) ? $field['settings']['backend'] : '',
+    '#options' => $options,
     '#disabled' => $has_data,
   );
+
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    $form += $db_plugin->FieldSettingsForm($field, $instance, $has_data);
+  }
 
   return $form;
 }

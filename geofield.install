@@ -9,8 +9,10 @@
  * Implements hook_field_schema().
  */
 function geofield_field_schema($field) {
-  $db_plugin = geofield_get_db_plugin('GeofieldDatabaseDefault');
-  return $db_plugin->getFieldSchema();
+  if ($db_plugin = geofield_get_field_db_plugin($field)) {
+    return $db_plugin->getFieldSchema();
+  }
+  return array();
 }
 
 /**
@@ -91,7 +93,7 @@ function geofield_update_7201(&$sandbox) {
         // Not a geofield field.
         continue;
       }
-      
+
       $table_name = _field_sql_storage_tablename($field);
       $revision_table_name = _field_sql_storage_revision_tablename($field);
 
