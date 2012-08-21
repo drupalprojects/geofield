@@ -195,7 +195,6 @@ function geofield_ctools_plugin_api($module, $api) {
 /**
  * Implements hook_field_settings_form().
  */
-
 function geofield_field_settings_form($field, $instance, $has_data) {
   $form = array();
 
@@ -216,7 +215,7 @@ function geofield_field_settings_form($field, $instance, $has_data) {
   );
 
   if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $form += $db_plugin->FieldSettingsForm($field, $instance, $has_data);
+    $form += $db_plugin->fieldSettingsForm($field, $instance, $has_data);
   }
 
   return $form;
