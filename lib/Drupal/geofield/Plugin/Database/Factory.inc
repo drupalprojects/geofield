@@ -16,7 +16,7 @@ class DrupalGeofieldPluginDatabaseFactory {
     if (empty($name)) {
       return NULL;
     }
-    $definition = Drupal\geofield\Plugin\Database\Discovery::getDefinition($name);
+    $definition = DrupalGeofieldPluginDatabaseDiscovery::getDefinition($name);
     module_load_include($definition['extension'], $definition['module'], $definition['file']);
     if (empty($definition) || !class_exists($definition['class'])) {
       return NULL;

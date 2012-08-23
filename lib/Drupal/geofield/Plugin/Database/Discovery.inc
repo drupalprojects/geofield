@@ -23,7 +23,7 @@ class DrupalGeofieldPluginDatabaseDiscovery {
       $function = $module . '_' . $hook;
       foreach ($function() as $type => $definition) {
         $definition['module'] = $module;
-        if (isset($definition['extension'])) {
+        if (!isset($definition['extension'])) {
           $definition['extension'] = 'inc';
         }
         $definitions[$type] = $definition;
