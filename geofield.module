@@ -50,7 +50,7 @@ function geofield_get_field_db_plugin($field) {
  * Retrieves a DB Plugin Instance of an specific type
  */
 function geofield_get_db_plugin($name = 'default') {
-  return GeofieldDatabasePluginFactory::getInstance($name);
+  return Drupal\geofield\Plugin\Database\Factory::getInstance($name);
 }
 
 /**
@@ -61,6 +61,7 @@ function geofield_geofield_db_plugin_info() {
   $info['default'] = array(
     'title' => t('Default'),
     'class' => 'GeofieldDatabaseDefault',
+    'file' => 'lib/Drupal/geofield/Plugin/Database/DatabaseDefault',
   );
   return $info;
 }

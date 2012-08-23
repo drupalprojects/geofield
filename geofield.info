@@ -15,4 +15,9 @@ files[] = views/geofield.views.inc
 files[] = views/handlers/geofield_handler_sort.inc
 files[] = views/handlers/geofield_handler_field.inc
 files[] = views/handlers/geofield_handler_filter.inc
-files[] = includes/geofield.core.inc
+
+; @todo - Remove in D8
+files[] = lib/Drupal/geofield/Plugin/Database/Discovery.inc
+files[] = lib/Drupal/geofield/Plugin/Database/Factory.inc
+files[] = lib/Drupal/geofield/Plugin/Database/DatabaseInterface.inc
+files[] = lib/Drupal/geofield/Plugin/Database/Base.inc
