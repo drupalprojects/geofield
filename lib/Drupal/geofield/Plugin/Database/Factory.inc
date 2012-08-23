@@ -11,7 +11,7 @@
 /**
  * Database plugin factory.
  */
-class DrupalGeofieldPluginDatabaseDiscovery {
+class DrupalGeofieldPluginDatabaseFactory {
   public static function getInstance($name) {
     if (empty($name)) {
       return NULL;
