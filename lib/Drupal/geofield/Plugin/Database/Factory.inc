@@ -2,15 +2,16 @@
 
 /**
  * @file
- * Definition of Drupal\geofield\Plugin\Database\Factory.
+ * Definition of DrupalGeofieldPluginDatabaseFactory.
  */
 
-namespace Drupal\geofield\Plugin\Database;
+// @todo - Uncomment in D8
+//namespace Drupal\geofield\Plugin\Database;
 
 /**
  * Database plugin factory.
  */
-class Factory {
+class DrupalGeofieldPluginDatabaseDiscovery {
   public static function getInstance($name) {
     if (empty($name)) {
       return NULL;

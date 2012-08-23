@@ -50,7 +50,7 @@ function geofield_get_field_db_plugin($field) {
  * Retrieves a DB Plugin Instance of an specific type
  */
 function geofield_get_db_plugin($name = 'default') {
-  return Drupal\geofield\Plugin\Database\Factory::getInstance($name);
+  return DrupalGeofieldPluginDatabaseFactory::getInstance($name);
 }
 
 /**
@@ -60,8 +60,8 @@ function geofield_geofield_db_plugin_info() {
   $info = array();
   $info['default'] = array(
     'title' => t('Default'),
-    'class' => 'Drupal\geofield\Plugin\Database\DatabaseDefault',
-    'file' => 'lib/Drupal/geofield/Plugin/Database/DatabaseDefault',
+    'class' => 'DrupalGeofieldPluginDatabaseDefault',
+    'file' => 'lib/Drupal/geofield/Plugin/Database/Default',
   );
   return $info;
 }
@@ -200,7 +200,7 @@ function geofield_field_settings_form($field, $instance, $has_data) {
   $form = array();
 
   $options = array();
-  $definitions = GeofieldDatabasePluginDiscovery::getDefinitions();
+  $definitions = DrupalGeofieldPluginDatabaseDiscovery::getDefinitions();
 
   foreach ($definitions as $type => $definition) {
     $options[$type] = $definition['title'];

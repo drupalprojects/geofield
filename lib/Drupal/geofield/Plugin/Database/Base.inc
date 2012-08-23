@@ -2,15 +2,16 @@
 
 /**
  * @file
- * Definition of Drupal\geofield\Plugin\Database\Base.
+ * Definition of DrupalGeofieldPluginDatabaseBase.
  */
 
-namespace Drupal\geofield\Plugin\Database;
+// @todo - Uncomment in D8
+//namespace Drupal\geofield\Plugin\Database;
 
 /**
  * Geofield DB plugin base class.
  */
-class Base implements DatabaseInterface {
+class DrupalGeofieldPluginDatabaseBase implements DrupalGeofieldPluginDatabaseInterface {
   public function getFieldSchema() {
     return array();
   }

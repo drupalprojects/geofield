@@ -2,17 +2,18 @@
 
 /**
  * @file
- * Definition of Drupal\geofield\Plugin\Database\Discovery.
+ * Definition of DrupalGeofieldPluginDatabaseDiscovery.
  */
 
-namespace Drupal\geofield\Plugin\Database;
+// @todo - This will work in D8
+//namespace Drupal\geofield\Plugin\Database;
 
 /**
  * Database plugin discovery class.
  */
-class Discovery {
+class DrupalGeofieldPluginDatabaseDiscovery {
   public static function getDefinition($name) {
-    $definitions = Drupal\geofield\Plugin\Database\Discovery::getDefinitions();
+    $definitions = DrupalGeofieldPluginDatabaseDiscovery::getDefinitions();
     return isset($definitions[$name]) ? $definitions[$name] : array();
   }
 
