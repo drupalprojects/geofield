@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\geofield\Plugin\Database\BAse.
+ * Definition of Drupal\geofield\Plugin\Database\Base.
  */
 
 namespace Drupal\geofield\Plugin\Database;

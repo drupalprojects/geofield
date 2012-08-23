@@ -60,7 +60,7 @@ function geofield_geofield_db_plugin_info() {
   $info = array();
   $info['default'] = array(
     'title' => t('Default'),
-    'class' => 'GeofieldDatabaseDefault',
+    'class' => 'Drupal\geofield\Plugin\Database\DatabaseDefault',
     'file' => 'lib/Drupal/geofield/Plugin/Database/DatabaseDefault',
   );
   return $info;

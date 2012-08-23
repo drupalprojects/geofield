@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\geofield\Plugin\Database\DBDefault.
+ * Definition of Drupal\geofield\Plugin\Database\Discovery.
  */
 
 namespace Drupal\geofield\Plugin\Database;
