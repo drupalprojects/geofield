@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Definition of DrupalGeofieldPluginDatabaseDefault.
+ * Definition of DrupalGeofieldPluginStorageDefault.
  */
 
 // @todo - Uncomment in D8
-//namespace Drupal\geofield\Plugin\Database;
+//namespace Drupal\geofield\Plugin\Storage;
 
 /**
- * Geofield DB plugin default class.
+ * Geofield storage plugin default class.
  */
-class DrupalGeofieldPluginDatabaseDefault extends DrupalGeofieldPluginDatabaseBase {
+class DrupalGeofieldPluginStorageDefault extends DrupalGeofieldPluginStorageBase {
   public function getFieldSchema() {
     return array(
       'columns' => array(

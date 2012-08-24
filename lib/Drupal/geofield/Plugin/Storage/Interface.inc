@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Definition of DrupalGeofieldPluginDatabaseInterface.
+ * Definition of DrupalGeofieldPluginStorageInterface.
  */
 
 // @todo - Uncomment in D8
-//namespace Drupal\geofield\Plugin\Database;
+//namespace Drupal\geofield\Plugin\Storage;
 
 /**
- * Base interface for connecting to geospatially enabled databases.
+ * Base interface for connecting to geospatially enabled storage engines.
  */
-interface DrupalGeofieldPluginDatabaseInterface {
+interface DrupalGeofieldPluginStorageInterface {
   public function getFieldSchema();
   public function fieldSettingsForm($field, $instance, $has_data);
   public function fieldLoad($entity_type, $entities, $field, $instances, $langcode, &$items, $age);

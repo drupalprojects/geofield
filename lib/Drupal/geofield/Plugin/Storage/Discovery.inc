@@ -2,23 +2,23 @@
 
 /**
  * @file
- * Definition of DrupalGeofieldPluginDatabaseDiscovery.
+ * Definition of DrupalGeofieldPluginStorageDiscovery.
  */
 
 // @todo - This will work in D8
-//namespace Drupal\geofield\Plugin\Database;
+//namespace Drupal\geofield\Plugin\Storage;
 
 /**
- * Database plugin discovery class.
+ * Storage plugin discovery class.
  */
-class DrupalGeofieldPluginDatabaseDiscovery {
+class DrupalGeofieldPluginStorageDiscovery {
   public static function getDefinition($name) {
-    $definitions = DrupalGeofieldPluginDatabaseDiscovery::getDefinitions();
+    $definitions = DrupalGeofieldPluginStorageDiscovery::getDefinitions();
     return isset($definitions[$name]) ? $definitions[$name] : array();
   }
 
   public static function getDefinitions() {
-    $hook = 'geofield_db_plugin_info';
+    $hook = 'geofield_plugin_storage_info';
     foreach (module_implements($hook) as $module) {
       $function = $module . '_' . $hook;
       foreach ($function() as $type => $definition) {

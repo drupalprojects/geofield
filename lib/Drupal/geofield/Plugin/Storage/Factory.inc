@@ -2,21 +2,21 @@
 
 /**
  * @file
- * Definition of DrupalGeofieldPluginDatabaseFactory.
+ * Definition of DrupalGeofieldPluginStorageFactory.
  */
 
 // @todo - Uncomment in D8
-//namespace Drupal\geofield\Plugin\Database;
+//namespace Drupal\geofield\Plugin\Storage;
 
 /**
- * Database plugin factory.
+ * Storage plugin factory.
  */
-class DrupalGeofieldPluginDatabaseFactory {
+class DrupalGeofieldPluginStorageFactory {
   public static function getInstance($name) {
     if (empty($name)) {
       return NULL;
     }
-    $definition = DrupalGeofieldPluginDatabaseDiscovery::getDefinition($name);
+    $definition = DrupalGeofieldPluginStorageDiscovery::getDefinition($name);
     module_load_include($definition['extension'], $definition['module'], $definition['file']);
     if (empty($definition) || !class_exists($definition['class'])) {
       return NULL;

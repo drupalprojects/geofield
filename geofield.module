@@ -36,32 +36,32 @@ function geofield_field_info() {
 }
 
 /**
- * Retrieves the DB Plugin for an specific field
+ * Retrieves the Storage Plugin for an specific field
  */
-function geofield_get_field_db_plugin($field) {
+function geofield_get_field_storage_plugin($field) {
   if (!isset($field['settings']['backend'])) {
     return NULL;
   }
-  $db_plugin = geofield_get_db_plugin($field['settings']['backend']);
-  return $db_plugin;
+  $storage_plugin = geofield_get_storage_plugin($field['settings']['backend']);
+  return $storage_plugin;
 }
 
 /**
- * Retrieves a DB Plugin Instance of an specific type
+ * Retrieves a Storage Plugin Instance of an specific type
  */
-function geofield_get_db_plugin($name = 'default') {
-  return DrupalGeofieldPluginDatabaseFactory::getInstance($name);
+function geofield_get_storage_plugin($name = 'default') {
+  return DrupalGeofieldPluginStorageFactory::getInstance($name);
 }
 
 /**
- * Implements hook_geofield_db_plugin_info().
+ * Implements hook_geofield_plugin_storage_info().
  */
-function geofield_geofield_db_plugin_info() {
+function geofield_geofield_plugin_storage_info() {
   $info = array();
   $info['default'] = array(
     'title' => t('Default'),
-    'class' => 'DrupalGeofieldPluginDatabaseDefault',
-    'file' => 'lib/Drupal/geofield/Plugin/Database/Default',
+    'class' => 'DrupalGeofieldPluginStorageDefault',
+    'file' => 'lib/Drupal/geofield/Plugin/Storage/Default',
   );
   return $info;
 }
@@ -70,8 +70,8 @@ function geofield_geofield_db_plugin_info() {
  * Implements hook_field_validate().
  */
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldValidate($entity_type, $entity, $field, $instance, $langcode, $items, $errors);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldValidate($entity_type, $entity, $field, $instance, $langcode, $items, $errors);
   }
 }
 
@@ -79,8 +79,8 @@ function geofield_field_validate($entity_type, $entity, $field, $instance, $lang
  * Implements hook_field_presave().
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldPresave($entity_type, $entity, $field, $instance, $langcode, $items);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldPresave($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
@@ -88,8 +88,8 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
  * Implements hook_field_load().
  */
 function geofield_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldLoad($entity_type, $entities, $field, $instances, $langcode, $items, $age);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldLoad($entity_type, $entities, $field, $instances, $langcode, $items, $age);
   }
 }
 
@@ -97,8 +97,8 @@ function geofield_field_load($entity_type, $entities, $field, $instances, $langc
  * Implements hook_field_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldIsEmpty($item, $field);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldIsEmpty($item, $field);
   }
 }
 
@@ -106,8 +106,8 @@ function geofield_field_is_empty($item, $field) {
  * Implements hook_field_insert().
  */
 function geofield_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldInsert($entity_type, $entity, $field, $instance, $langcode, $items);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldInsert($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
@@ -115,8 +115,8 @@ function geofield_field_insert($entity_type, $entity, $field, $instance, $langco
  * Implements hook_field_update().
  */
 function geofield_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldUpdate($entity_type, $entity, $field, $instance, $langcode, $items);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldUpdate($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
@@ -124,8 +124,8 @@ function geofield_field_update($entity_type, $entity, $field, $instance, $langco
  * Implements hook_field_delete().
  */
 function geofield_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldDelete($entity_type, $entity, $field, $instance, $langcode, $items);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldDelete($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
@@ -133,8 +133,8 @@ function geofield_field_delete($entity_type, $entity, $field, $instance, $langco
  * Implements hook_field_delete_revision().
  */
 function geofield_field_delete_revision($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, $items);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
 
@@ -142,8 +142,8 @@ function geofield_field_delete_revision($entity_type, $entity, $field, $instance
  * Implements hook_field_update_field().
  */
 function geofield_field_update_field($field, $prior_field, $has_data) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldUpdateField($field, $prior_field, $has_data);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldUpdateField($field, $prior_field, $has_data);
   }
 }
 
@@ -151,8 +151,8 @@ function geofield_field_update_field($field, $prior_field, $has_data) {
  * Implements hook_field_update_forbid().
  */
 function geofield_field_update_forbid($field, $prior_field, $has_data) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldUpdateForbid($field, $prior_field, $has_data);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldUpdateForbid($field, $prior_field, $has_data);
   }
 }
 
@@ -160,8 +160,8 @@ function geofield_field_update_forbid($field, $prior_field, $has_data) {
  * Implements hook_field_delete_field().
  */
 function geofield_field_delete_field($field) {
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $db_plugin->fieldDeleteField($field);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $storage_plugin->fieldDeleteField($field);
   }
 }
 
@@ -200,7 +200,7 @@ function geofield_field_settings_form($field, $instance, $has_data) {
   $form = array();
 
   $options = array();
-  $definitions = DrupalGeofieldPluginDatabaseDiscovery::getDefinitions();
+  $definitions = DrupalGeofieldPluginStorageDiscovery::getDefinitions();
 
   foreach ($definitions as $type => $definition) {
     $options[$type] = $definition['title'];
@@ -215,8 +215,8 @@ function geofield_field_settings_form($field, $instance, $has_data) {
     '#disabled' => $has_data,
   );
 
-  if ($db_plugin = geofield_get_field_db_plugin($field)) {
-    $form += $db_plugin->fieldSettingsForm($field, $instance, $has_data);
+  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+    $form += $storage_plugin->fieldSettingsForm($field, $instance, $has_data);
   }
 
   return $form;

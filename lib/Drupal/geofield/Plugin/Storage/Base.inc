@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Definition of DrupalGeofieldPluginDatabaseBase.
+ * Definition of DrupalGeofieldPluginStorageBase.
  */
 
 // @todo - Uncomment in D8
-//namespace Drupal\geofield\Plugin\Database;
+//namespace Drupal\geofield\Plugin\Storage;
 
 /**
  * Geofield DB plugin base class.
  */
-class DrupalGeofieldPluginDatabaseBase implements DrupalGeofieldPluginDatabaseInterface {
+class DrupalGeofieldPluginStorageBase implements DrupalGeofieldPluginStorageInterface {
   public function getFieldSchema() {
     return array();
   }
