@@ -166,6 +166,15 @@ function geofield_field_delete_field($field) {
 }
 
 /**
+ * Implements hook_field_purge_field().
+ */
+function geofield_field_purge_field($field) {
+  if (($field['type'] == 'geofield') && ($storage_plugin = geofield_get_field_storage_plugin($field))) {
+    $storage_plugin->fieldPurgeField($field);
+  }
+}
+
+/**
  * Implements hook_view_api().
  */
 function geofield_views_api() {

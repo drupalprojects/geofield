@@ -53,4 +53,7 @@ class DrupalGeofieldPluginStorageBase implements DrupalGeofieldPluginStorageInte
 
   public function fieldDeleteField($field) {
   }
+
+  public function fieldPurgeField($field) {
+  }
 }

@@ -25,4 +25,5 @@ interface DrupalGeofieldPluginStorageInterface {
   public function fieldUpdateField($field, $prior_field, $has_data);
   public function fieldUpdateForbid($field, $prior_field, $has_data);
   public function fieldDeleteField($field);
+  public function fieldPurgeField($field);
 }
