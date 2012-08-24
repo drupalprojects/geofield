@@ -133,7 +133,7 @@ function geofield_field_delete($entity_type, $entity, $field, $instance, $langco
  * Implements hook_field_delete_revision().
  */
 function geofield_field_delete_revision($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+  if (($field['type'] == 'geofield') && ($storage_plugin = geofield_get_field_storage_plugin($field))) {
     $storage_plugin->fieldDeleteRevision($entity_type, $entity, $field, $instance, $langcode, $items);
   }
 }
@@ -142,7 +142,7 @@ function geofield_field_delete_revision($entity_type, $entity, $field, $instance
  * Implements hook_field_update_field().
  */
 function geofield_field_update_field($field, $prior_field, $has_data) {
-  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+  if (($field['type'] == 'geofield') && ($storage_plugin = geofield_get_field_storage_plugin($field))) {
     $storage_plugin->fieldUpdateField($field, $prior_field, $has_data);
   }
 }
@@ -151,7 +151,7 @@ function geofield_field_update_field($field, $prior_field, $has_data) {
  * Implements hook_field_update_forbid().
  */
 function geofield_field_update_forbid($field, $prior_field, $has_data) {
-  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+  if (($field['type'] == 'geofield') && ($storage_plugin = geofield_get_field_storage_plugin($field))) {
     $storage_plugin->fieldUpdateForbid($field, $prior_field, $has_data);
   }
 }
@@ -160,7 +160,7 @@ function geofield_field_update_forbid($field, $prior_field, $has_data) {
  * Implements hook_field_delete_field().
  */
 function geofield_field_delete_field($field) {
-  if ($storage_plugin = geofield_get_field_storage_plugin($field)) {
+  if (($field['type'] == 'geofield') && ($storage_plugin = geofield_get_field_storage_plugin($field))) {
     $storage_plugin->fieldDeleteField($field);
   }
 }
